@@ -4,26 +4,35 @@ namespace Crm\Customer\Services;
 
 use Crm\Customer\Events\CustomerCreation;
 use Crm\Customer\Models\Customer;
+use Crm\Customer\Repositories\CustomerRepository;
 use Crm\Customer\Requests\CreateCustomer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CustomerService
 {
-    public function notFound()
+    private CustomerRepository $customerRepository;
+
+    public function __construct(CustomerRepository $customerRepository)
     {
-        return response()->json(['status' => 'Not Found'], Response::HTTP_NOT_FOUND);
+        $this->customerRepository = $customerRepository;
     }
+
+    public function notFound($message = 'Not Found', $status = Response::HTTP_NOT_FOUND)
+    {
+        return response()->json(['status' => $message], $status);
+    }
+
 
     public function index()
     {
-        return Customer::all();
+        return $this->customerRepository->all();
     }
 
     public function show($id)
 
     {
-        return Customer::find($id);
+        return $this->customerRepository->find($id);
 
     }
 

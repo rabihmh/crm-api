@@ -5,9 +5,14 @@ namespace Crm\Project\Service;
 use Crm\Project\Events\ProjectCreation;
 use Crm\Project\Models\Project;
 use Crm\Project\Requests\CreateProjectRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProjectService
 {
+    public function notFound($message = 'Not Found', $status = Response::HTTP_NOT_FOUND)
+    {
+        return response()->json(['status' => $message], $status);
+    }
 
     public function createProject(CreateProjectRequest $request, $customer_id)
     {
